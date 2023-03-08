@@ -1,0 +1,22 @@
+{
+  "extends": ["airbnb", "airbnb/hooks", "airbnb-typescript", "prettier"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    // Allow arrow functions format for defining componenets
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    // No warnings for console log statements
+    "no-console": "off",
+    "import/prefer-default-export": "off",
+    "react/require-default-props": "off"
+  }
+}
