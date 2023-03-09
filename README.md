@@ -1,6 +1,4 @@
-# Getting Started with Create React App
-
-Few Details about the App:-
+# Few Details about the App:-
 
 - Used React and Typescript to build the App.
 - It's mobile-friendly.
