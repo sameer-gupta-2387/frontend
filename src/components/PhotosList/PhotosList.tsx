@@ -1,4 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Avatar, Pagination, Table, Input } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Photo, PhotosPage } from '../../interfaces/photos';
@@ -17,57 +23,62 @@ const PhotosList = () => {
   const [searchString, setSearchString] = useState<string>('');
   const [photoUrl, setPhotoUrl] = useState<string>();
 
-  const columns: ColumnsType<Photo> = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-      render: (_, record) => (
-        <span
-          role="button"
-          tabIndex={-1}
-          onKeyUp={({ key }) => {
-            if (key === 'Enter') {
-              setPhotoUrl(`${record.url}`);
-            }
-          }}
-          onClick={() => setPhotoUrl(`${record.url}`)}
-        >
-          {record.id}
-        </span>
-      ),
-    },
-    {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
-    },
-    {
-      title: 'Thumbnail',
-      dataIndex: 'thumbnailUrl',
-      key: 'thumbnailUrl',
-      render: (_, record) => (
-        <Avatar
-          src={`${record.thumbnailUrl}`}
-          shape="square"
-          onClick={() => setPhotoUrl(`${record.url}`)}
-          data-testid={`thumbnail-${record.id}`}
-        />
-      ),
-    },
-  ];
+  const columns: ColumnsType<Photo> = useMemo(
+    () => [
+      {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+        render: (_, record) => (
+          <span
+            role="button"
+            tabIndex={-1}
+            onKeyUp={({ key }) => {
+              if (key === 'Enter') {
+                setPhotoUrl(`${record.url}`);
+              }
+            }}
+            onClick={() => setPhotoUrl(`${record.url}`)}
+          >
+            {record.id}
+          </span>
+        ),
+      },
+      {
+        title: 'Title',
+        dataIndex: 'title',
+        key: 'title',
+      },
+      {
+        title: 'Thumbnail',
+        dataIndex: 'thumbnailUrl',
+        key: 'thumbnailUrl',
+        render: (_, record) => (
+          <Avatar
+            src={`${record.thumbnailUrl}`}
+            shape="square"
+            onClick={() => setPhotoUrl(`${record.url}`)}
+            data-testid={`thumbnail-${record.id}`}
+          />
+        ),
+      },
+    ],
+    []
+  );
 
-  const search = async (pSearchString: string, pPageNo: number) => {
+  const search = useCallback(async (pSearchString: string, pPageNo: number) => {
     setLoading(true);
     setData(await getPhotosPage(pSearchString, pPageNo, pageSize));
     setPageNo(pPageNo);
     setLoading(false);
-  };
+  }, []);
 
-  if (!initiated.current) {
-    search(searchString, pageNo);
-    initiated.current = true;
-  }
+  useEffect(() => {
+    if (!initiated.current) {
+      search(searchString, pageNo);
+      initiated.current = true;
+    }
+  }, [search, searchString, pageNo]);
 
   return (
     <div className="Photolist" data-testid="photo-list-page">
