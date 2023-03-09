@@ -1,0 +1,29 @@
+.Photolist {
+  width: 80%;
+}
+
+.Searchbar {
+  padding-bottom: 16px
+}
+
+.Table {
+  padding-bottom: 16px
+}
+
+.Pagination {
+  text-align: right;
+}
+
+.ant-table-container table>thead>tr>th {
+  background-color: #a7c941!important;
+  color: #fff!important;
+}
+
+.ant-table-tbody tr:nth-child(even) {
+  background-color: #e9f3d3;
+}
+
+.ant-table-container table { border: 1px solid #a7c941; }
+.ant-table-container table td { border-left: 1px solid #a7c941; }
+
+.ant-table-container table td:first-child { border-left: none; }
